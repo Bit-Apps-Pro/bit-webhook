@@ -15,25 +15,23 @@ import {
   Switch,
   Tooltip
 } from '@chakra-ui/react';
-import { faker } from '@faker-js/faker';
-import { useForm, usePage } from '@inertiajs/inertia-react';
+import { usePage } from '@inertiajs/inertia-react';
 import { useAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import QueryParams from '../Components/webhook/QueryParams';
 import Master from './Layouts/Master';
+import { default as fakeData } from '../static/fakeData.json'
+import fetchNewUrl from '../helper/fetchNewUrl';
 
 export default function Outgoing() {
-  const [token] = useAtom($randomUrl);
+  const [token, setToken] = useAtom($randomUrl);
   const [isProxying, setIsProxying] = useAtom($proxied);
   const toast = useToast();
   const { app } = usePage().props;
   const { onCopy, hasCopied } = useClipboard(`${app?.APP_URL}/api/v1/${token}`);
-  const fakeFormData = {
-    name: faker.internet.userName(),
-    email: faker.internet.exampleEmail(),
-    age: faker.datatype.number({max: 90}),
-    password: faker.internet.password()
-  }
+  console.log('fakeData', fakeData)
+  const fakeFormData = fakeData[Math.floor(Math.random() * 100)]
+  console.log('fakeFormData', fakeFormData)
   const [requestData, setRequestData] = useState({
     url: `${app?.APP_URL}/api/v1/${token}`,
     method: 'POST',
@@ -45,6 +43,19 @@ export default function Outgoing() {
     raw: '',
     bodyType: 'formData'
   })
+
+  useEffect(() => {
+    if (token === '') {
+      fetchNewUrl().then(url => {
+        if (url) {
+          setToken(url)
+          const tempData = { ...requestData }
+          tempData.url = route('webhook', url);
+          setRequestData(tempData)
+        }
+      })
+    }
+  }, [])
 
   const getRequestOptions = () => {
     let options = {}
@@ -129,7 +140,7 @@ export default function Outgoing() {
     e.preventDefault();
     fetch(getRequestURL(), getRequestOptions())
       .then((res) => {
-        const tempData = {...requestData}
+        const tempData = { ...requestData }
         tempData.formData = fakeFormData
         setRequestData(tempData)
         toast({ variant: '#000', description: 'Sended!', position: 'bottom-right', containerStyle: { bg: '#000', color: 'white', borderRadius: '5px' } });
@@ -162,7 +173,7 @@ export default function Outgoing() {
             rounded={'md'}
             shouldWrapChildren
           >
-            <Switch id='proxy' onChange={() => setIsProxying(!isProxying)} isChecked={isProxying}/>
+            <Switch id='proxy' onChange={() => setIsProxying(!isProxying)} isChecked={isProxying} />
           </Tooltip>
         </Flex>
         <VStack width={"100%"}>

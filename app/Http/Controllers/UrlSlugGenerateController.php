@@ -4,54 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\UrlSlugGenerate;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class UrlSlugGenerateController extends Controller
 {
-    public function createNewRandomURl() {
-        $uniqueId = uniqid();
-        $saveUniqueId = new UrlSlugGenerate();
-        $saveUniqueId->url_slug = $uniqueId;
-        $save = $saveUniqueId->save();
-        if ($save) {
-            return response()->json([
-                'success'   => true,
-                'message'  => 'URL generated successfully',
-                'uniqueId' => $uniqueId,
-            ]);
-        } else {
-            return response()->json([
-                'success'   => false,
-                'message'  => 'URL generated failed',
-                'uniqueId' => $uniqueId,
-            ]);
+    public function createNewRandomURl()
+    {
+        $uniqueId = $this->generateUuid();
+        $message = [
+            'success'   => false,
+            'message'  => 'Failed to generate url',
+            'uniqueId' => $uniqueId,
+        ];
+        if ($uniqueId) {
+            $message['success']   = true;
+            $message['message']  = 'URL generated successfully';
         }
+        return response()->json($message);
     }
 
-    public function refreshUrl(Request $request) {
+    public function refreshUrl(Request $request)
+    {
         $deleted = UrlSlugGenerate::where('url_slug', $request->url)->delete();
-        if($deleted) {
-            $uniqueId = uniqid();
-            $saveUniqueId = new UrlSlugGenerate();
-            $saveUniqueId->url_slug = $uniqueId;
-            $save = $saveUniqueId->save();
-            if ($save) {
-                return response()->json([
-                    'success'   => true,
-                    'message'  => 'New URL generated successfully',
-                    'uniqueId' => $uniqueId,
-                ]);
+        $message = [
+            'success'   => false,
+            'message'  => 'something went wrong'
+        ];
+        if ($deleted) {
+            $uniqueId = $this->generateUuid();
+            $message['uniqueId'] = $uniqueId;
+            if ($uniqueId) {
+                $message['success']   = true;
+                $message['message']  = 'New URL generated successfully';
             } else {
-                return response()->json([
-                    'success'   => false,
-                    'message'  => 'New URL generated failed',
-                    'uniqueId' => $uniqueId,
-                ]);
+                $message['message']  = 'Failed to generate new url';
             }
-        }else{
-            return response()->json([
-                'success'   => false,
-                'message'  => 'something went wrong',
-            ]);
         }
+        return response()->json($message);
+    }
+
+    /**
+     * Generates uuid using Ramsey's Uuid with v4
+     *
+     * @return false | string
+     */
+    private function generateUuid()
+    {
+        $uniqueId = Uuid::uuid4()->toString();
+        $saveUniqueId = new UrlSlugGenerate();
+        $saveUniqueId->url_slug = $uniqueId;
+        return $saveUniqueId->save() ? $uniqueId : false;
     }
 }

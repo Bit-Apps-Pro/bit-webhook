@@ -8,10 +8,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {ChakraProvider} from '@chakra-ui/react'
 import Master from './Pages/Layouts/Master'
 import BroadcastWebhook from './Components/webhook/BroadcastWebhook';
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title}`,
     resolve: (name) => {
         const page =resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx'))
         page.layout=page.layout || Master

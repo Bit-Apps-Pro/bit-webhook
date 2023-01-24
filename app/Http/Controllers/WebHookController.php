@@ -5,17 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Logs;
 use App\Models\UrlSlugGenerate;
 use DateTime;
-use GuzzleHttp\Client;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Ramsey\Uuid\Rfc4122\UuidV5;
+use Ramsey\Uuid\Uuid;
 
 /**
  * WebHookController
@@ -23,9 +17,10 @@ use Inertia\Inertia;
 class WebHookController extends Controller
 {
     /**
-     * moves the uploaded files if file exists in request
+     * Moves the uploaded files if file exists in request
      *
      * @param Request $request
+     *
      * @return array
      */
     public function processUploadedFiles($request)
@@ -100,11 +95,16 @@ class WebHookController extends Controller
         }
 
         $details = $this->getRequestDetails($request);
-        $rayID = uniqid();
-        broadcast(new \App\Events\WebhookLogEvent($url_slug, [
-            'id' => $rayID,
-            'webhook_details' => json_encode($details),
-        ]));
+        $rayID = Uuid::uuid4()->toString();
+        broadcast(
+            new \App\Events\WebhookLogEvent(
+                $url_slug,
+                [
+                    'id' => $rayID,
+                    'webhook_details' => json_encode($details),
+                ]
+            )
+        );
 
         return response()->json(['success' => true, 'data' => ['rID' => $rayID]]);
     }
