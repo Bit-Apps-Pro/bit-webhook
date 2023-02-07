@@ -1,5 +1,6 @@
-import { Flex, Heading, LinkBox, Stack, useColorMode } from '@chakra-ui/react';
+import { Flex, Heading, Button, Stack, IconButton, Link as ExternalLink } from '@chakra-ui/react';
 import { Link } from '@inertiajs/inertia-react';
+import GitHubIcon from '../../static/icons/GitHubIcon';
 
 export default function Header() {
   return (
@@ -26,13 +27,17 @@ export default function Header() {
       <Stack
         direction={{ base: "column", md: "row" }}
         // display={{ base: isOpen ? "block" : "none", md: "flex" }}
-        display={'flex'}
         width={{ base: "full", md: "auto" }}
-        alignItems="center"
+        justifyContent={'flex-end'}
         flexGrow={1}
         mt={{ base: 4, md: 0 }}
       >
-        <Link href={route('outgoing.view')}>Outgoing</Link>
+        <Button variant='ghost'>
+          <Link href={route('outgoing.view')}>Outgoing</Link>
+        </Button>
+        <ExternalLink href='https://github.com/Bit-Apps-Pro/bit-webhook' isExternal>
+          <IconButton icon={<GitHubIcon />} variant={'ghost'} color={'gray.400'} _hover={{ color: 'gray.800' }} />
+        </ExternalLink>
       </Stack>
     </Flex>
   )

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="a simple test software for incoming and outgoing webhooks. It allows you to quickly test and debug webhooks by providing a public endpoint for your webhooks to be sent to.">
 
 
     <title inertia>Test your webhook - {{ config('app.name', 'Laravel') }}</title>

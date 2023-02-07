@@ -9,10 +9,12 @@ export default function BroadcastWebhook() {
   const { VITE_WS_HOST, VITE_WS_PATH } = import.meta.env
 
   useEffect(() => {
+    if (randomURL === '') {
+      return
+    }
     const echo = new Echo({
       host: VITE_WS_HOST,
       path: `${VITE_WS_PATH}/socket.io`,
-      // path: window.location.pathname + 'socket.io',
       broadcaster: "socket.io",
       client: socketio,
       // encrypted: false,
@@ -28,26 +30,9 @@ export default function BroadcastWebhook() {
           localStorage.setItem('bit_rID', JSON.stringify(stored))
           setLogs([{ id: e.id, webhook_details: e.webhook_details, seen: 0 }, ...JSON.parse(localStorage.getItem('bit_webhook_logs') || '[]')])
         }
-        // console.log('--->>>', logs)
-        // if (logs === false) {
-        //   const webhookLg = { id: e.id, webhook_details: e.webhook_details, seen: 1 }
-        //   logs.push(webhookLg)
-        //   setLogs(logs)
-        // } else {
-        //   const existId = logs.find(log => log.id === e.id)
-        //   if (!existId) {
-        //     const tmp = [...logs]
-        //     const webhookLg = { id: e.id, webhook_details: e.webhook_details, seen: 0 }
-        //     tmp.unshift(webhookLg)
-        //     setLogs(tmp)
-        //     console.log('--->>>tmp', tmp)
-        //     localStorage.setItem('test-tmp'+ tK, JSON.stringify(tmp))
-        //   }
-        // }
-        // localStorage.setItem('test-e' + tK, JSON.stringify(e))
       })
     return () => {
       echo.disconnect()
     }
-  }, [])
+  }, [randomURL])
 }

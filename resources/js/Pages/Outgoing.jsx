@@ -20,7 +20,7 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import QueryParams from '../Components/webhook/QueryParams';
 import Master from './Layouts/Master';
-import { default as fakeData } from '../static/fakeData.json'
+import { default as fakeData } from '../static/data/fakeData.json'
 import fetchNewUrl from '../helper/fetchNewUrl';
 
 export default function Outgoing() {

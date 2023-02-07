@@ -24,6 +24,7 @@ specifiers:
   react: ^18.2.0
   react-custom-scrollbars-2: ^4.5.0
   react-dom: ^18.2.0
+  react-github-btn: ^1.4.0
   socket.io-client: 2.3.0
   tailwindcss: ^3.2.1
   vite: ^4.0.0
@@ -31,15 +32,16 @@ specifiers:
 dependencies:
   '@chakra-ui/icons': 2.0.16_i3shekjw4uogiqsyudihvyzi2i
   '@chakra-ui/react': 2.4.8_loo4skotrnm7icurwgkplqpnwq
-  '@faker-js/faker': 7.6.0
   jotai: 1.13.0_2exiyaescjxorpwwmy4ejghgte
   jotai-nexus: 1.0.7_h3ml34cxdflotrf3jfn4kkrcyq
   laravel-echo: 1.14.2
   laravel-echo-server: 1.6.3
   react-custom-scrollbars-2: 4.5.0_biqbaboplfbrettd7655fr4n2y
+  react-github-btn: 1.4.0_react@18.2.0
   socket.io-client: 2.3.0
 
 devDependencies:
+  '@faker-js/faker': 7.6.0
   '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@inertiajs/inertia': 0.11.1
   '@inertiajs/inertia-react': 0.8.1_rklruaqualwo6h75enkiuwrtxm
@@ -2772,7 +2774,7 @@ packages:
   /@faker-js/faker/7.6.0:
     resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
-    dev: false
+    dev: true
 
   /@headlessui/react/1.7.7_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-BqDOd/tB9u2tA0T3Z0fn18ktw+KbVwMnkxxsGPIH2hzssrQhKB5n/6StZOyvLYP/FsYtvuXfi9I0YowKPv2c1w==}
@@ -5170,6 +5172,10 @@ packages:
       assert-plus: 1.0.0
     dev: false
 
+  /github-buttons/2.22.3:
+    resolution: {integrity: sha512-09/pJ7X6D1whEeFz+fKSjOBEEDnY/nxbPN7zduxAU5zGwo4RkXjL86AiOVHgIYDothbHAS43eaVk76a8Lp4YYw==}
+    dev: false
+
   /glob-parent/5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -7101,6 +7107,15 @@ packages:
       react-clientside-effect: 1.2.6_react@18.2.0
       use-callback-ref: 1.3.0_kzbn2opkn2327fwg5yzwzya5o4
       use-sidecar: 1.1.2_kzbn2opkn2327fwg5yzwzya5o4
+    dev: false
+
+  /react-github-btn/1.4.0_react@18.2.0:
+    resolution: {integrity: sha512-lV4FYClAfjWnBfv0iNlJUGhamDgIq6TayD0kPZED6VzHWdpcHmPfsYOZ/CFwLfPv4Zp+F4m8QKTj0oy2HjiGXg==}
+    peerDependencies:
+      react: '>=16.3.0'
+    dependencies:
+      github-buttons: 2.22.3
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
